@@ -1,14 +1,15 @@
 # server.R
-
+#installing necessery libaries
 library(shiny)
 library(readr)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
 
-# — wczytanie i przekształcenie danych (powtórzone z ui.R) —
+#loading the data
 dane <- read.csv("C:/Users/Laptop/Desktop/Studia/III ROK/VI semestr/T4BR/Exercises_session_6/work_files/TPMs_table_100genes.csv")
 
+#creating long format data
 dane_long <- dane %>% 
   pivot_longer(
     cols      = matches("Control|Treated"), 
@@ -21,13 +22,14 @@ dane_long <- dane %>%
     into  = c("Condition", "Sample_number")
   )
 
-# — logika serwera —
+#server 
 function(input, output, session) {
   
   data_sel <- reactive({
     subset(dane_long, GeneID == input$genes_ids)
   })
-  
+
+  #ploting the plot
   output$distPlot <- renderPlot({
     ggplot(data_sel(), aes(
       x    = Sample_number,
