@@ -1,13 +1,14 @@
 # ui.R
-
+#installing necessery libaries
 library(shiny)
 library(readr)
 library(tidyr)
 library(dplyr)
 
-# — wczytanie i przekształcenie danych (to samo co w server.R) —
+# loading the data
 dane <- read.csv("C:/Users/Laptop/Desktop/Studia/III ROK/VI semestr/T4BR/Exercises_session_6/work_files/TPMs_table_100genes.csv")
 
+#creating a long format data
 dane_long <- dane %>% 
   pivot_longer(
     cols      = matches("Control|Treated"), 
@@ -20,7 +21,7 @@ dane_long <- dane %>%
     into  = c("Condition", "Sample_number")
   )
 
-# — definicja interfejsu —
+#creating interface
 fluidPage(
   titlePanel("The expression of chosen gene across samples"),
   sidebarLayout(
